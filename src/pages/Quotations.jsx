@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import apiFetch from '../lib/api'
 import jsPDF from 'jspdf'
 import PageShell from './PageShell.jsx'
 import Logo from '../assets/VTlogo.jpg'
@@ -229,7 +230,7 @@ const Quotations = () => {
 
     const fetchLatestQuotationNumber = async () => {
       try {
-        const response = await fetch('/api/quotes')
+        const response = await apiFetch('/api/quotes')
         if (!response.ok) {
           throw new Error('Failed to fetch existing quotations')
         }
@@ -398,7 +399,7 @@ const Quotations = () => {
 
   const fetchQuoteByNumber = async (quoteNumber) => {
     try {
-      const response = await fetch('/api/quotes')
+      const response = await apiFetch('/api/quotes')
       if (!response.ok) {
         throw new Error('Failed to fetch quotations')
       }
@@ -448,7 +449,7 @@ const Quotations = () => {
       }
 
       try {
-        const response = await fetch('/api/quotes', {
+        const response = await apiFetch('/api/quotes', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -884,7 +885,7 @@ const Quotations = () => {
 
     try {
       setSaving(true)
-      const response = await fetch('/api/quotes', {
+      const response = await apiFetch('/api/quotes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

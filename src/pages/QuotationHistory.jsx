@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import apiFetch from '../lib/api'
 import PageShell from './PageShell.jsx'
 
 const statusPills = {
@@ -44,7 +45,7 @@ const QuotationHistory = () => {
       try {
         setLoading(true)
         setError('')
-        const response = await fetch('/api/quotes', {
+        const response = await apiFetch('/api/quotes', {
           signal: controller.signal,
         })
         if (!response.ok) {

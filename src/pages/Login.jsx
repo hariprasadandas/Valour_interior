@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import apiFetch from '../lib/api'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const Login = ({ onLogin, user }) => {
@@ -33,7 +34,7 @@ const Login = ({ onLogin, user }) => {
     try {
       setLoading(true)
       setError('')
-      const response = await fetch('/api/auth/login', {
+      const response = await apiFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
