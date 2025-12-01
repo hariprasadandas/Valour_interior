@@ -568,22 +568,20 @@ const Quotations = () => {
         })
       }
 
-      let yPos = 55
+      // Ensure the top content (header + separator) and overview do not overlap
+      let yPos = 62
 
-      // Brand banner
-      doc.setFillColor(15, 23, 42)
-      doc.rect(0, 0, pageWidth, 42, 'F')
+      // Header (white background) with separator
       if (resolvedLogo) {
         doc.addImage(resolvedLogo, 'WEBP', margin, 7, 28, 28)
       }
-
-      doc.setTextColor(255, 255, 255)
+      doc.setTextColor(51, 65, 85)
       doc.setFont('helvetica', 'bold')
       doc.setFontSize(18)
-      doc.text(COMPANY_DETAILS.name, margin + 36, 18)
+      doc.text(COMPANY_DETAILS.name, margin + 36, 20)
       doc.setFont('helvetica', 'normal')
       doc.setFontSize(10)
-      doc.text(COMPANY_DETAILS.brandLine, margin + 36, 28)
+      doc.text(COMPANY_DETAILS.brandLine, margin + 36, 30)
       doc.setFontSize(9)
       doc.text(COMPANY_DETAILS.contactLine, pageWidth - margin, 33, {
         align: 'right',
@@ -591,18 +589,20 @@ const Quotations = () => {
       doc.text(`GSTIN: ${COMPANY_DETAILS.gstNumber}`, pageWidth - margin, 40, {
         align: 'right',
       })
-
-      doc.setTextColor(51, 65, 85)
-      doc.setFontSize(11)
+      // horizontal separator line to separate header visually
+      doc.setDrawColor(226, 232, 240)
+      doc.setLineWidth(0.6)
+      doc.line(margin, 46, pageWidth - margin, 46)
 
       // Overview band
       doc.setFillColor(248, 250, 252)
       doc.roundedRect(margin, yPos - 14, tableWidth, 30, 4, 4, 'F')
       doc.setFont('helvetica', 'bold')
-      doc.text('Quotation Overview', margin + 4, yPos - 4)
+      // Centered, uppercase title
+      doc.text('QUOTATION', margin + tableWidth / 2, yPos - 4, { align: 'center' })
       doc.setFont('helvetica', 'normal')
       doc.setFontSize(10)
-      doc.text(`Quotation #: ${resolvedQuotationNumber}`, margin + 4, yPos + 2)
+      doc.text(`Quotation Number: ${resolvedQuotationNumber}`, margin + 4, yPos + 2)
       doc.text(
         `Date: ${formatDateWithOrdinal(quotationDateForPdf)}`,
         pageWidth / 2,
@@ -611,13 +611,6 @@ const Quotations = () => {
       doc.text(
         `Valid Until: ${formatDateWithOrdinal(validUntil)}`,
         margin + 4,
-        yPos + 10,
-      )
-      doc.text(
-        sanitizedProjectName
-          ? `Project: ${sanitizedProjectName}`
-          : 'Prepared by: Valour Interior Studio',
-        pageWidth / 2,
         yPos + 10,
       )
       yPos += 32
@@ -779,24 +772,24 @@ const Quotations = () => {
       )
       const tax = (subtotal * pdfTaxRate) / 100
       const total = subtotal + tax
-      const summaryHeight = 36
+      const summaryHeight = 28
 
       doc.setFillColor(248, 250, 252)
       doc.roundedRect(margin, yPos, tableWidth, summaryHeight, 4, 4, 'F')
       doc.setFont('helvetica', 'bold')
-      doc.text('Investment Summary', margin + 4, yPos + 8)
+      doc.text('Summary', margin + 4, yPos + 6)
       doc.setFont('helvetica', 'normal')
-      doc.text('Subtotal', pageWidth - margin - 60, yPos + 14)
-      doc.text(formatCurrencyForPDF(subtotal), amountTextX, yPos + 14, {
+      doc.text('Subtotal', pageWidth - margin - 60, yPos + 12)
+      doc.text(formatCurrencyForPDF(subtotal), amountTextX, yPos + 12, {
         align: 'right',
       })
-      doc.text(`GST (${pdfTaxRate}%)`, pageWidth - margin - 60, yPos + 22)
-      doc.text(formatCurrencyForPDF(tax), amountTextX, yPos + 22, {
+      doc.text(`GST (${pdfTaxRate}%)`, pageWidth - margin - 60, yPos + 18)
+      doc.text(formatCurrencyForPDF(tax), amountTextX, yPos + 18, {
         align: 'right',
       })
       doc.setFont('helvetica', 'bold')
-      doc.text('Grand Total', pageWidth - margin - 60, yPos + 30)
-      doc.text(formatCurrencyForPDF(total), amountTextX, yPos + 30, {
+      doc.text('Grand Total', pageWidth - margin - 60, yPos + 24)
+      doc.text(formatCurrencyForPDF(total), amountTextX, yPos + 24, {
         align: 'right',
       })
 
@@ -1021,7 +1014,7 @@ const Quotations = () => {
                 value={customer.gstin}
                 onChange={(e) => setCustomer({ ...customer, gstin: e.target.value })}
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-base text-slate-900 focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100"
-                placeholder="36BJPP4058J1ZZ"
+                placeholder="GST IN"
               />
             </label>
           </div>
